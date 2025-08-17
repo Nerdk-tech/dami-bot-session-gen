@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>damiBOTZ Session Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      color: #00ffc3;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .box {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 520px;
+      margin: auto;
+      box-shadow: 0 0 20px #00ffc3;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #00ffc3;
+      border: none;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #02d3ab;
+    }
+    .output {
+      margin-top: 15px;
+      background-color: #111;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      word-break: break-word;
+      color: #0f0;
+    }
+    .copy-btn {
+      background-color: #333;
+      color: #fff;
+      font-size: 12px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 12px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background-color: #444;
+    }
+    .link {
+      margin-top: 10px;
+      display: block;
+      color: #00ffd9;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .dev {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 13px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 damiBOTZ Session Generator</h1>
+  <div class="box">
+    <input type="text" id="numberInput" placeholder="Enter WhatsApp Number (e.g., 234805467XXX)" />
+    <br />
+    <button onclick="getPairCode()">🔐 Get Pairing Code</button>
+    <div class="output" id="pairCode"></div>
+    <button class="copy-btn" onclick="copyText('pairCode')">📋 Copy Pairing Code</button>
+
+    <button onclick="getSession()">📩 Get Session ID</button>
+    <div class="output" id="sessionID"></div>
+    <button class="copy-btn" onclick="copyText('sessionID')">📋 Copy Session ID</button>
+
+    <a href="https://whatsapp.com/channel/0029VazHPYwBqbr9HjXrc50m" class="link" target="_blank">📢 Join WhatsApp Channel</a>
+    <a href="https://github.com/Nerdk-tech" class="link" target="_blank">👨‍💻 View GitHub Repository</a>
+
+    <div class="dev">🛠 Developed by <b>DAMINĪ </b></div>
+  </div>
+
+  <script>
+    async function getPairCode() {
+      const number = document.getElementById("numberInput").value.trim();
+      if (!number.match(/^\d+$/)) {
+        alert("❌ Please enter a valid number (with country code, no +)");
+        return;
+      }
+      document.getElementById("pairCode").innerHTML = "⏳ Generating...";
+      const res = await fetch(`/pair?number=${number}`);
+      const text = await res.text();
+      document.getElementById("pairCode").innerText = text;
+    }
+
+    async function getSession() {
+      const number = document.getElementById("numberInput").value.trim();
+      if (!number.match(/^\d+$/)) {
+        alert("❌ Please enter a valid number first.");
+        return;
+      }
+      document.getElementById("sessionID").innerHTML = "⏳ Fetching...";
+      const res = await fetch(`/getSession?number=${number}`);
+      const text = await res.text();
+      document.getElementById("sessionID").innerText = text;
+    }
+
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("✅ Copied!");
+      });
+    }
+  </script>
+</body>
+</html>
